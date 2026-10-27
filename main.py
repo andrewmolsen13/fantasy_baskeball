@@ -59,8 +59,7 @@ while run == True:
                     while current_player not in players or current_player in comparison:
                         current_player = input(f"They are not in the player list or you have already selected them, please try agian ").lower().title()
                     comparison.append(current_player)
-                for name in comparison:
-                    players[name].display_stats()
+                compare_stats(players, comparison)
                 
         except ValueError:
             print("You have to input a number. ")

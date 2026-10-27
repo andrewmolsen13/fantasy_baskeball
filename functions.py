@@ -1,3 +1,5 @@
+
+
 class basketball_player():
 
     def __init__(self, name):
@@ -17,6 +19,24 @@ class basketball_player():
             for stat, value in stats.items():
                 print(f"{stat.capitalize():<12}: {value}\n")
 
+    def calculate_averages(self):
+        totals = {}
+
+        for game in self.games.values():
+            for stat, value in game.items():
+                if stat not in totals:
+                    totals[stat] = value
+                else:
+                    totals[stat] += value
+
+        averages = {}
+        for stat, total in totals.items():
+            average = total  / len(self.games)
+            averages[stat] = average 
+
+        return averages
+
+
 
 
 
@@ -32,13 +52,14 @@ def get_game_stats ():
 
 def menu():
     menu_options = [1,2,3,4]
-    option = input("Welcome to your fantasy basketball assistant! What would you like to do?\n"
+    option = get_valid_number("Welcome to your fantasy basketball assistant! What would you like to do?\n"
                    "1. Input new players\n"
                    "2. View stats\n"
                    "3. Compare Players \n"
                    "4. Quit\n")
+    
     while int(option) not in menu_options:
-        option = input("Please select a valid number 1-2: ")
+        option = input("Please select a valid number 1-4: ")
 
     return int(option)
 
@@ -53,3 +74,34 @@ def get_valid_number(prompt):
             print("Invalid input. Please enter a number.")
 
     return number
+
+def compare_stats(players, comparison):
+    comparison_averages = {}
+    for name in comparison:
+        player = players[name]
+        comparison_averages[name] = player.calculate_averages()
+    
+    print("\nPLAYER COMPARISON")
+    print("-" * (15 + 20 * len(comparison)))
+
+    print(f"{'Statistic':<15}", end="")
+
+    for name in comparison:
+        print(f"{name:<20}", end="")
+
+    print()
+    print("-" * (15 + 20 * len(comparison)))
+
+    # Display averages for each player
+    stats = ["points", "assists", "rebounds", "steals", "blocks", "minutes"]
+
+    for stat in stats:
+        print(f"{stat.capitalize():<15}", end="")
+
+        for name in comparison:
+            average = comparison_averages[name].get(stat, 0)
+            print(f"{average:<20.1f}", end="")
+
+        print()
+
+    print("-" * (15 + 20 * len(comparison)))
