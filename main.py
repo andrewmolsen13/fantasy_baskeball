@@ -8,7 +8,7 @@ while run == True:
 
     if menu_option == 1:
         #Enter the number of players you want to input
-        num_players = int(input("How many players would you like to input? "))
+        num_players = get_valid_number("How many players would you like to input? ")
 
 
 
@@ -20,7 +20,7 @@ while run == True:
 
         # ask number of games 
 
-        num_games = int(input("How many games would you like to input? "))
+        num_games = get_valid_number("How many games would you like to input? ")
         for player in players.values():
             for i in range(num_games):
                 print(f"Enter stats for {player.name}'s game #{i+1}")
@@ -43,4 +43,26 @@ while run == True:
                 print("Invalid name, please try again")
 
     elif menu_option == 3:
+        try:
+            compare_number = int(input("How many players would you like to compare?"))
+            if compare_number < 2:
+                print("You cannot compare just one player.")
+            elif len(players) < compare_number:
+                print(f"There are only {len(players)} entered." 
+                      f"Please enter {compare_number - len(players)} more players to compare {compare_number} players")
+            else:
+                comparison = []
+                for i in range(compare_number):
+                    for name in players:
+                        print(name)
+                    current_player = input(f"Who is player {i + 1} ").lower().title()
+                    while current_player not in players or current_player in comparison:
+                        current_player = input(f"They are not in the player list or you have already selected them, please try agian ").lower().title()
+                    comparison.append(current_player)
+                for name in comparison:
+                    players[name].display_stats()
+                
+        except ValueError:
+            print("You have to input a number. ")
+    elif menu_option == 4:
         run = False

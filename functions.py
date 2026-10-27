@@ -1,7 +1,6 @@
 class basketball_player():
 
     def __init__(self, name):
-        
         self.name = name
         self.games = {}
 
@@ -23,21 +22,34 @@ class basketball_player():
 
 def get_game_stats ():
     stats = {}
-    stats["points"] = int(input("How many points did they score? "))
-    stats["assists"] = int(input("How many assists did they have? "))
-    stats["rebounds"] = int(input("How many rebounds did they have? "))
-    stats["steals"] = int(input("How many steals did they have? "))
-    stats["blocks"] = int(input("How many blocks did they have? "))
-    stats["minutes"] = int(input("How many minutes did they play? "))
+    stats["points"] = get_valid_number("How many points did they score? ")
+    stats["assists"] = get_valid_number("How many assists did they have? ")
+    stats["rebounds"] = get_valid_number("How many rebounds did they have? ")
+    stats["steals"] = get_valid_number("How many steals did they have? ")
+    stats["blocks"] = get_valid_number("How many blocks did they have? ")
+    stats["minutes"] = get_valid_number("How many minutes did they play? ")
     return stats
 
 def menu():
-    menu_options = [1,2,3]
+    menu_options = [1,2,3,4]
     option = input("Welcome to your fantasy basketball assistant! What would you like to do?\n"
                    "1. Input new players\n"
                    "2. View stats\n"
-                   "3. Quit\n")
+                   "3. Compare Players \n"
+                   "4. Quit\n")
     while int(option) not in menu_options:
         option = input("Please select a valid number 1-2: ")
 
     return int(option)
+
+def get_valid_number(prompt):
+    valid = False
+
+    while not valid:
+        try:
+            number = int(input(prompt))
+            valid = True
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    return number
