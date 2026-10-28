@@ -1,25 +1,23 @@
-
 from functions import *
+
 # Open the menu
 run = True
 players = {}
-while run == True:
-    menu_option = menu()
+
+# since the while loop is looking for a truthy value you don't have to do the check here
+while run:
+    menu_option = menu() # breaking out the functions is good. Helps keep the code readable
 
     if menu_option == 1:
         #Enter the number of players you want to input
         num_players = get_valid_number("How many players would you like to input? ")
 
-
-
         for i in range(num_players):
+            name = input(f"What is player {i + 1}'s name? ").lower().title() # Found the title() function. Nice!
             
-            name = input(f"What is player {i + 1}'s name? ").lower().title()
-            
-            players[name] = basketball_player(name)
+            players[name] = BasketballPlayer(name)
 
         # ask number of games 
-
         num_games = get_valid_number("How many games would you like to input? ")
         for player in players.values():
             for i in range(num_games):
